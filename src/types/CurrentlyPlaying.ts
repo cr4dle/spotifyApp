@@ -4,21 +4,17 @@ import { Context } from "./common/Context";
 import { ExternalIds } from "./common/ExternalIds";
 import { ExternalUrls } from "./common/ExternalUrls";
 
-export interface RecentlyPlayedTracksResponse {
-  items: Item[];
-  next: string;
-  cursors: Cursors;
-  limit: number;
-  href: string;
+export interface CurrentlyPlaying {
+  timestamp: number;
+  context: Context;
+  progress_ms: number;
+  item: Item;
+  currently_playing_type: string;
+  actions: Actions;
+  is_playing: boolean;
 }
 
 export interface Item {
-  track: Track;
-  played_at: string;
-  context: Context;
-}
-
-export interface Track {
   album: Album;
   artists: Artist[];
   available_markets: string[];
@@ -32,12 +28,17 @@ export interface Track {
   is_local: boolean;
   name: string;
   popularity: number;
-  preview_url: string;
+  preview_url: any;
   track_number: number;
   type: string;
   uri: string;
 }
-export interface Cursors {
-  after: string;
-  before: string;
+
+export interface Actions {
+  disallows: Disallows;
+}
+
+export interface Disallows {
+  resuming: boolean;
+  skipping_prev: boolean;
 }

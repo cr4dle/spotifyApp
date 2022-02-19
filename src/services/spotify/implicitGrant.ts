@@ -8,7 +8,8 @@ export const implicitGrant: () => void = () => {
   const state: string = generateRandomString();
 
   localStorage.setItem(STATE_KEY, state);
-  const scope = "user-read-private user-read-email user-read-recently-played";
+  const scope =
+    "user-read-private user-read-email user-read-recently-played user-read-currently-playing";
 
   const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(
     client_id

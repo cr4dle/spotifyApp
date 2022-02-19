@@ -8,7 +8,7 @@
 import { STATE_KEY } from "@/constants";
 import { getHashParams } from "@/utils";
 import axios from "axios";
-import { getRecentlyPlayedTracks } from "@/services/spotify";
+import { getCurrentlyPlaying, getRecentlyPlayedTracks } from "@/services/spotify";
 
 // TODO this is temp code
 var params = getHashParams();
@@ -31,6 +31,8 @@ if (access_token && (state == null || state !== storedState)) {
       .then((response) => console.log(response));
 
     getRecentlyPlayedTracks(access_token);
+
+    getCurrentlyPlaying(access_token);
   }
 }
 </script>
