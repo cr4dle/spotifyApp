@@ -11,6 +11,7 @@ const routes: Array<RouteConfig> = [
     name: "Home",
     component: Home,
     beforeEnter: () => {
+      // TODO change this to let the user the option to log in themselves
       implicitGrant();
     },
   },
@@ -21,7 +22,7 @@ const routes: Array<RouteConfig> = [
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
   {
-    path: "/main",
+    path: "/main", // TODO this route will be protected
     name: "Main",
     component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
   },

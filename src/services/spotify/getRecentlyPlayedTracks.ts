@@ -2,6 +2,9 @@ import { Artist } from "@/types/common/Artist";
 import { RecentlyPlayedTracksResponse } from "@/types/RecentlyPlayedTracksResponse";
 import axios, { AxiosResponse } from "axios";
 
+// TODO shared same instance of axios
+// TODO check for certain response status code and redirect to unauth page (401)
+// TODO create unauth page
 export const getRecentlyPlayedTracks: (
   access_token: string
 ) => Promise<RecentlyPlayedTracksResponse> = async (access_token) => {

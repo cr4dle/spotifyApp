@@ -25,6 +25,7 @@ export default class TrackItem extends Vue {
   @Prop({ required: true }) private track!: Track;
 
   get albumCover() {
+    // TODO there are different image size. There could be some logic based on screen resolution to get the best fit
     return this.track.album.images[0].url;
   }
 }
@@ -33,7 +34,7 @@ export default class TrackItem extends Vue {
 <style scoped lang="scss">
 .track {
   margin: 10px;
-  width: 49%;
+  width: 50%; // TODO this is temporary solution as the parent component will restrict the width. A component should be design on full width/height
 
   .avatar {
     width: 100%;

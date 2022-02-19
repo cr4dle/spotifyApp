@@ -8,17 +8,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from "vue-property-decorator";
-import { Track } from "@/types/RecentlyPlayedTracksResponse";
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Card extends Vue {
-  @Prop({ required: true }) private track!: Track;
-
-  get albumCover() {
-    return this.track.album.images[0].url;
-  }
-}
+export default class Card extends Vue {}
 </script>
 
 <style scoped lang="scss">

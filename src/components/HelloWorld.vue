@@ -127,6 +127,7 @@
 </template>
 
 <script lang="ts">
+// TODO remove this component or adjust the content
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
