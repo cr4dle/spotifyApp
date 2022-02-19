@@ -1,7 +1,5 @@
-import {
-  Artist,
-  RecentlyPlayedTracksResponse,
-} from "@/types/RecentlyPlayedTracksResponse";
+import { Artist } from "@/types/common/Artist";
+import { RecentlyPlayedTracksResponse } from "@/types/RecentlyPlayedTracksResponse";
 import axios, { AxiosResponse } from "axios";
 
 export const getRecentlyPlayedTracks: (

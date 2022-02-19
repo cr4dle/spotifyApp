@@ -20,6 +20,11 @@ const routes: Array<RouteConfig> = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue"),
   },
+  {
+    path: "/main",
+    name: "Main",
+    component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
+  },
 ];
 
 const router = new VueRouter({

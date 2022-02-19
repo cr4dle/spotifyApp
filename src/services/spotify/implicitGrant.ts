@@ -3,7 +3,7 @@ import { generateRandomString } from "@/utils";
 
 export const implicitGrant: () => void = () => {
   const client_id = "4b24cfb3e238464fbc28f5d54955f08b";
-  const redirect_uri = "https://localhost:8080/about";
+  const redirect_uri = "https://localhost:8080/main";
 
   const state: string = generateRandomString();
 

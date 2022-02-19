@@ -8,7 +8,10 @@
 import { STATE_KEY } from "@/constants";
 import { getHashParams } from "@/utils";
 import axios from "axios";
-import { getCurrentlyPlaying, getRecentlyPlayedTracks } from "@/services/spotify";
+import {
+  getCurrentlyPlaying,
+  getRecentlyPlayedTracks,
+} from "@/services/spotify";
 
 // TODO this is temp code
 var params = getHashParams();
