@@ -10,7 +10,7 @@ export const getRecentlyPlayedTracks: (
 ) => Promise<RecentlyPlayedTracksResponse> = async (access_token) => {
   const response: AxiosResponse<RecentlyPlayedTracksResponse> =
     await axios.get<RecentlyPlayedTracksResponse>(
-      "https://api.spotify.com/v1/me/player/recently-played",
+      `${process.env.VUE_APP_SPOTIFY_BASE}/${process.env.VUE_APP_SPOTIFY_VERSION}/${process.env.VUE_APP_SPOTIFY_PLAYER_RESOURCE}/recently-played`,
       {
         headers: {
           Authorization: "Bearer " + access_token,

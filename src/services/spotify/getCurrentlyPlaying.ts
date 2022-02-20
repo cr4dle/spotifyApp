@@ -6,7 +6,7 @@ export const getCurrentlyPlaying: (
 ) => Promise<CurrentlyPlaying> = async (access_token) => {
   const response: AxiosResponse<CurrentlyPlaying> =
     await axios.get<CurrentlyPlaying>(
-      "https://api.spotify.com/v1/me/player/currently-playing",
+      `${process.env.VUE_APP_SPOTIFY_BASE}/${process.env.VUE_APP_SPOTIFY_VERSION}/${process.env.VUE_APP_SPOTIFY_PLAYER_RESOURCE}/currently-playing`,
       {
         headers: {
           Authorization: "Bearer " + access_token,
@@ -14,7 +14,5 @@ export const getCurrentlyPlaying: (
       }
     );
 
-  console.log(response);
-
-  return response.data;
+  return response.data; // TODO if there is no guard to check for status, we should return here the AxiosResponse and check for status
 };
