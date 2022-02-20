@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['track', { 'play-sample': track.preview_url }]"
+    :class="['track', { 'play-sample': track.id }]"
     @click="onClick"
   >
     <card>
