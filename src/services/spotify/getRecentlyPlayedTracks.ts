@@ -18,12 +18,5 @@ export const getRecentlyPlayedTracks: (
       }
     );
 
-  //   console.log(response.data.items);
-
-  // TODO: it will became a Vuex getter
-  const recentlyPlayedArtist: Artist[] = response.data.items.flatMap(
-    (item) => item.track.artists
-  );
-  //   console.log(recentlyPlayedArtist);
   return response.data;
 };

@@ -16,8 +16,7 @@
 
 <script lang="ts">
 // TODO this should have subroute for the menu and main screen
-import { Component, Inject, Vue, Watch } from "vue-property-decorator";
-import { Artist } from "@/types/common/Artist";
+import { Component, Vue, Watch } from "vue-property-decorator";
 import TrackCollection from "@/components/TrackCollection.vue";
 import SideMenu from "@/components/SideMenu.vue";
 import { getHashParams } from "@/utils";
@@ -45,19 +44,13 @@ export default class Main extends Vue {
 
     this.interval = window.setInterval(async () => {
       const response = await spotify.getCurrentlyPlaying(this.accessToken);
-      console.log("currently listening", response);
-      console.log(this);
 
       if (response && response.is_playing) {
         if (this.currentlyPlayingTrack !== response) {
-          console.log("Should add?", this.currentlyPlayingTrack !== response);
           this.currentlyPlayingTrack = response;
         }
       } else {
         this.currentlyPlayingTrack = null;
-        if (response.item.artists.map(artist => artist.name).includes(this.filter)) {
-          this.filter = "";
-        }
       }
     }, this.DETECT_PLAYING_SONG_MILISECONDS);
   }
@@ -70,7 +63,6 @@ export default class Main extends Vue {
   get accessToken(): string {
     // TODO create return type
     var params = getHashParams();
-    console.log(params);
     return params.access_token;
   }
 
@@ -78,7 +70,6 @@ export default class Main extends Vue {
     const rencentlyPlayedTracks: Track[] = [...this.recentlyPlayedTracks];
 
     if (this.currentlyPlayingTrack) {
-      console.log("Add curently playing song");
       rencentlyPlayedTracks.unshift(this.currentlyPlayingTrack.item);
     }
 
@@ -100,6 +91,13 @@ export default class Main extends Vue {
   @Watch("$route.query.artist", { deep: true, immediate: true })
   onQueryChange(newValue: string) {
     this.filter = newValue;
+  }
+
+  @Watch("currentlyPlayingTrack")
+  onCurrentlyPlayingTrack(newValue: CurrentlyPlaying, oldValue: CurrentlyPlaying) {
+    if (newValue === null && oldValue.item.artists.map(artist => artist.name).includes(this.filter)) {
+      this.filter = "";
+    }
   }
 
   onArtistClicked(artist: string) {
