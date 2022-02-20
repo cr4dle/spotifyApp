@@ -10,7 +10,7 @@ export const getRecentlyPlayedTracks: (
 ) => Promise<RecentlyPlayedTracksResponse> = async (access_token) => {
   const response: AxiosResponse<RecentlyPlayedTracksResponse> =
     await axios.get<RecentlyPlayedTracksResponse>(
-      "https://api.spotify.com/v1/me/player/recently-played?limit=5",
+      "https://api.spotify.com/v1/me/player/recently-played",
       {
         headers: {
           Authorization: "Bearer " + access_token,
@@ -18,12 +18,12 @@ export const getRecentlyPlayedTracks: (
       }
     );
 
-  console.log(response.data.items);
+  //   console.log(response.data.items);
 
   // TODO: it will became a Vuex getter
   const recentlyPlayedArtist: Artist[] = response.data.items.flatMap(
     (item) => item.track.artists
   );
-  console.log(recentlyPlayedArtist);
+  //   console.log(recentlyPlayedArtist);
   return response.data;
 };

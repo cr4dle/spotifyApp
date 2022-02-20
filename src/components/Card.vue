@@ -26,6 +26,8 @@ export default class Card extends Vue {}
 
   .container {
     padding: 10px;
+    align-self: flex-start;
+    margin-top: auto;
   }
 }
 </style>

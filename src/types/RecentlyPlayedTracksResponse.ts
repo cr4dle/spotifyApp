@@ -1,8 +1,5 @@
-import { Album } from "./common/Album";
-import { Artist } from "./common/Artist";
 import { Context } from "./common/Context";
-import { ExternalIds } from "./common/ExternalIds";
-import { ExternalUrls } from "./common/ExternalUrls";
+import { Track } from "./common/Track";
 
 export interface RecentlyPlayedTracksResponse {
   items: Item[];
@@ -18,25 +15,6 @@ export interface Item {
   context: Context;
 }
 
-export interface Track {
-  album: Album;
-  artists: Artist[];
-  available_markets: string[];
-  disc_number: number;
-  duration_ms: number;
-  explicit: boolean;
-  external_ids: ExternalIds;
-  external_urls: ExternalUrls;
-  href: string;
-  id: string;
-  is_local: boolean;
-  name: string;
-  popularity: number;
-  preview_url: string;
-  track_number: number;
-  type: string;
-  uri: string;
-}
 export interface Cursors {
   after: string;
   before: string;

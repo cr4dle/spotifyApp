@@ -1,4 +1,4 @@
-import { STATE_KEY } from "@/constants";
+import { SPOTIFY, STATE_KEY } from "@/constants";
 import { generateRandomString } from "@/utils";
 
 export const implicitGrant: () => void = () => {
@@ -8,8 +8,7 @@ export const implicitGrant: () => void = () => {
   const state: string = generateRandomString();
 
   localStorage.setItem(STATE_KEY, state);
-  const scope =
-    "user-read-private user-read-email user-read-recently-played user-read-currently-playing";
+  const scope = `${SPOTIFY.USERS.USER_READ_PRIVATE} ${SPOTIFY.USERS.USER_READ_EMAIL} ${SPOTIFY.LISTENING_HISTORY.USER_READ_RECENTLY_PLAYED} ${SPOTIFY.SPOTIFY_CONNECT.USER_READ_CURRENTLY_PLAYING}`;
 
   const url = `https://accounts.spotify.com/authorize?response_type=token&client_id=${encodeURIComponent(
     client_id

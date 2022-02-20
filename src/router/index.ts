@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
-import { implicitGrant } from "@/services/spotify/implicitGrant";
+import { spotify } from "@/services";
 
 Vue.use(VueRouter);
 
@@ -12,7 +12,7 @@ const routes: Array<RouteConfig> = [
     component: Home,
     beforeEnter: () => {
       // TODO change this to let the user the option to log in themselves
-      implicitGrant();
+      spotify.implicitGrant();
     },
   },
   {
@@ -25,6 +25,14 @@ const routes: Array<RouteConfig> = [
     path: "/main", // TODO this route will be protected
     name: "Main",
     component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
+    children: [
+      {
+        path: "/",
+        name: "Main1",
+        component: () =>
+          import(/* webpackChunkName: "main" */ "../views/Main.vue"),
+      },
+    ],
   },
 ];
 
