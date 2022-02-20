@@ -1,5 +1,8 @@
 <template>
   <div class="track-collection">
+    <span class="track-collection__brief">
+      {{ tracks.length }} recently played songs
+    </span>
     <div
       class="track-collection__content"
       v-for="(track, index) in tracks"
@@ -32,6 +35,10 @@ export default class TrackCollection extends Vue {
   justify-content: center;
   flex-wrap: wrap;
   margin: auto;
+
+  &__brief {
+    width: 100%;
+  }
 
   &__content {
     display: flex;

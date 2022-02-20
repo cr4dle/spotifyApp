@@ -28,6 +28,7 @@ export default class SideMenu extends Vue {
 <style scoped lang="scss">
 .side-menu {
   margin: 5px;
+  min-width: 200px;
 
   .recently-played-artist {
     cursor: pointer;

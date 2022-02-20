@@ -128,6 +128,7 @@ export default class Main extends Vue {
     }
 
     .content {
+      width: 100%;
     }
   }
 }
