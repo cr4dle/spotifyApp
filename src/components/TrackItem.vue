@@ -11,22 +11,13 @@
         <span>{{ track.name }}</span>
         <template v-if="autoplay">
           <iframe
-            ref="player"
-            :src="track.preview_url"
+            :src="playerUrl"
+            height="80px"
             frameborder="0"
             allowtransparency="true"
             allow="encrypted-media"
           ></iframe>
         </template>
-        <!-- <iframe
-          class="test-iframe"
-          ref="player"
-          :src="playerUrl"
-          height="80px"
-          frameborder="0"
-          allowtransparency="true"
-          allow="encrypted-media"
-        ></iframe> -->
       </slot>
     </card>
   </div>
@@ -69,7 +60,7 @@ export default class TrackItem extends Vue {
   flex-grow: 1;
   display: flex;
   pointer-events: none;
-  min-width: 300px;
+  width: 320px;
 
   &.play-sample {
     pointer-events: all;
