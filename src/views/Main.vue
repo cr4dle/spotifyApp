@@ -32,8 +32,9 @@ import { Track } from "@/types/common/Track";
   },
 })
 export default class Main extends Vue {
+  private readonly DETECT_PLAYING_SONG_MILISECONDS: number = 3000;
+
   private recentlyPlayedTracks: Track[] = [];
-  private recentlyPlayedArtists: Set<string> | null = null;
   private currentlyPlayingTrack: CurrentlyPlaying | null = null;
   private filter = "";
   private interval: number = 0;
@@ -42,17 +43,23 @@ export default class Main extends Vue {
     const response = await spotify.getRecentlyPlayedTracks(this.accessToken);
     this.recentlyPlayedTracks = response.items.map((item) => item.track);
 
-    this.recentlyPlayedArtists = new Set(
-      this.recentlyPlayedTracks?.flatMap((track) => track.artists)
-        .map(artist => artist.name)
-        .sort()
-      );
-
     this.interval = window.setInterval(async () => {
       const response = await spotify.getCurrentlyPlaying(this.accessToken);
       console.log("currently listening", response);
-      this.currentlyPlayingTrack = response;
-    }, 3000);
+      console.log(this);
+
+      if (response && response.is_playing) {
+        if (this.currentlyPlayingTrack !== response) {
+          console.log("Should add?", this.currentlyPlayingTrack !== response);
+          this.currentlyPlayingTrack = response;
+        }
+      } else {
+        this.currentlyPlayingTrack = null;
+        if (response.item.artists.map(artist => artist.name).includes(this.filter)) {
+          this.filter = "";
+        }
+      }
+    }, this.DETECT_PLAYING_SONG_MILISECONDS);
   }
 
   destroyed() {
@@ -75,11 +82,19 @@ export default class Main extends Vue {
       rencentlyPlayedTracks.unshift(this.currentlyPlayingTrack.item);
     }
 
-    return this.filter === undefined
+    return this.filter === undefined || this.filter === ""
       ? rencentlyPlayedTracks
       : rencentlyPlayedTracks.filter((track) =>
           track.artists.map((artist) => artist.name).includes(this.filter)
         );
+  }
+
+  get recentlyPlayedArtists() {
+    return new Set(
+      this.filteredRecentlyTracks?.flatMap((track) => track.artists)
+        .map(artist => artist.name)
+        .sort()
+      );
   }
 
   @Watch("$route.query.artist", { deep: true, immediate: true })
@@ -87,27 +102,18 @@ export default class Main extends Vue {
     this.filter = newValue;
   }
 
-  @Watch("currentlyPlayingTrack")
-  onCurrentlyPlayingTrack(newValue: CurrentlyPlaying) {
-    if (newValue && newValue.is_playing) {
-      this.currentlyPlayingTrack = newValue;
-    } else {
-      this.currentlyPlayingTrack = null;
-    }
-  }
-
-  // @Inject()
-  // get currentlyPalyingTrack(): Track {
-  //   return ;
-  // }
-
   onArtistClicked(artist: string) {
+    const artistQueryParam = this.$router.currentRoute.query?.artist?.toString() === artist
+      ? ""
+      : artist;
+      
+    
     this.$router.push({
       name: "Main",
       hash: this.$router.currentRoute.hash,
       query: {
         ...this.$router.currentRoute.query,
-        artist,
+        artist: artistQueryParam,
       },
     });
   }
