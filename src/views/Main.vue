@@ -19,10 +19,11 @@
 import { Component, Vue, Watch } from "vue-property-decorator";
 import TrackCollection from "@/components/TrackCollection.vue";
 import SideMenu from "@/components/SideMenu.vue";
-import { getHashParams } from "@/utils";
+import { getHashParams, localStorage } from "@/utils";
 import { spotify } from "@/services";
 import { CurrentlyPlaying } from "@/types/CurrentlyPlaying";
 import { Track } from "@/types/common/Track";
+import { AUTHENTICATION_KEY } from "@/constants";
 
 @Component({
   components: {
@@ -61,9 +62,7 @@ export default class Main extends Vue {
 
   // TODO come from Vuex or sesion cookie
   get accessToken(): string {
-    // TODO create return type
-    var params = getHashParams();
-    return params.access_token;
+    return localStorage.get(AUTHENTICATION_KEY) || "";
   }
 
   get filteredRecentlyTracks() {
@@ -82,10 +81,11 @@ export default class Main extends Vue {
 
   get recentlyPlayedArtists() {
     return new Set(
-      this.filteredRecentlyTracks?.flatMap((track) => track.artists)
-        .map(artist => artist.name)
+      this.filteredRecentlyTracks
+        ?.flatMap((track) => track.artists)
+        .map((artist) => artist.name)
         .sort()
-      );
+    );
   }
 
   @Watch("$route.query.artist", { deep: true, immediate: true })
@@ -94,18 +94,24 @@ export default class Main extends Vue {
   }
 
   @Watch("currentlyPlayingTrack")
-  onCurrentlyPlayingTrack(newValue: CurrentlyPlaying, oldValue: CurrentlyPlaying) {
-    if (newValue === null && oldValue.item.artists.map(artist => artist.name).includes(this.filter)) {
+  onCurrentlyPlayingTrack(
+    newValue: CurrentlyPlaying,
+    oldValue: CurrentlyPlaying
+  ) {
+    if (
+      newValue === null &&
+      oldValue.item.artists.map((artist) => artist.name).includes(this.filter)
+    ) {
       this.filter = "";
     }
   }
 
   onArtistClicked(artist: string) {
-    const artistQueryParam = this.$router.currentRoute.query?.artist?.toString() === artist
-      ? ""
-      : artist;
-      
-    
+    const artistQueryParam =
+      this.$router.currentRoute.query?.artist?.toString() === artist
+        ? ""
+        : artist;
+
     this.$router.push({
       name: "Main",
       hash: this.$router.currentRoute.hash,

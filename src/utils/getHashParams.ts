@@ -1,10 +1,12 @@
-export const getHashParams: () => object = () => {
-  const hashParams: object = {};
+import { SpotifyAuth } from "@/types/SpotifyAuth";
+
+export const getHashParams: () => SpotifyAuth = () => {
+  const hashParams: SpotifyAuth = {} as SpotifyAuth;
   let e: RegExpExecArray | null;
-  const r = new RegExp(/([^&;=]+)=?([^&;]*)/g),
+  const r: RegExp = new RegExp(/([^&;=]+)=?([^&;]*)/g),
     q: string = window.location.hash.substring(1);
   while ((e = r.exec(q))) {
-    hashParams[e[1]] = decodeURIComponent(e[2]);
+    hashParams[e[1] as keyof SpotifyAuth] = decodeURIComponent(e[2]);
   }
   return hashParams;
 };

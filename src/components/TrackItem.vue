@@ -1,8 +1,5 @@
 <template>
-  <div
-    :class="['track', { 'play-sample': track.id }]"
-    @click="onClick"
-  >
+  <div :class="['track', { 'play-sample': track.id }]" @click="onClick">
     <card>
       <slot name="header">
         <img class="avatar" :src="albumCover" />
