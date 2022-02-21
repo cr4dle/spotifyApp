@@ -1,17 +1,12 @@
 import { SpotifyProfile } from "@/types/SpotifyProfile";
-import axios, { AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 
 export const getProfile: (
-  access_token: string
-) => Promise<SpotifyProfile> = async (access_token) => {
+  axiosInstance: AxiosInstance
+) => Promise<SpotifyProfile> = async (axiosInstance) => {
   const response: AxiosResponse<SpotifyProfile> =
-    await axios.get<SpotifyProfile>(
-      `${process.env.VUE_APP_SPOTIFY_BASE}/${process.env.VUE_APP_SPOTIFY_VERSION}/me`,
-      {
-        headers: {
-          Authorization: "Bearer " + access_token,
-        },
-      }
+    await axiosInstance.get<SpotifyProfile>(
+      `${process.env.VUE_APP_SPOTIFY_BASE}/${process.env.VUE_APP_SPOTIFY_VERSION}/me`
     );
 
   return response.data;

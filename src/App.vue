@@ -32,14 +32,12 @@ export default class App extends Vue {
   }
 
   get userImage(): string {
-    return "https://i.scdn.co/image/ab67616d0000b273c6b577e4c4a6d326354a89f7";
     const userImages = this.spotifyProfile?.images || [];
 
     return userImages.length > 0 ? userImages[0].url : "";
   }
 
   get userImageClass(): string {
-    return "landscape";
     const userImages = this.spotifyProfile?.images || [];
 
     return userImages.length > 0
@@ -58,9 +56,7 @@ export default class App extends Vue {
   @Watch("isAuth", { immediate: true })
   async onIsAuth(newValue: boolean) {
     if (newValue) {
-      this.spotifyProfile = await spotify.getProfile(
-        localStorage.get(AUTHENTICATION_KEY) || ""
-      );
+      this.spotifyProfile = await spotify.getProfile();
     } else {
       this.spotifyProfile = null;
     }

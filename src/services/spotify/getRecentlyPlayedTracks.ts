@@ -1,23 +1,17 @@
 import { SPOTIFY_RECENTLY_TRACKS_LIMIT } from "@/constants";
 import { RecentlyPlayedTracksResponse } from "@/types/RecentlyPlayedTracksResponse";
-import axios, { AxiosResponse } from "axios";
+import { AxiosInstance, AxiosResponse } from "axios";
 
-// TODO shared same instance of axios
-// TODO check for certain response status code and redirect to unauth page (401)
-// TODO create unauth page
 export const getRecentlyPlayedTracks: (
-  access_token: string,
-) => Promise<RecentlyPlayedTracksResponse> = async (access_token) => {
+  axiosInstance: AxiosInstance
+) => Promise<RecentlyPlayedTracksResponse> = async (axiosInstance) => {
   const response: AxiosResponse<RecentlyPlayedTracksResponse> =
-    await axios.get<RecentlyPlayedTracksResponse>(
+    await axiosInstance.get<RecentlyPlayedTracksResponse>(
       `${process.env.VUE_APP_SPOTIFY_BASE}/${process.env.VUE_APP_SPOTIFY_VERSION}/${process.env.VUE_APP_SPOTIFY_PLAYER_RESOURCE}/recently-played`,
       {
-        headers: {
-          Authorization: "Bearer " + access_token,
-        },
         params: {
-          limit: SPOTIFY_RECENTLY_TRACKS_LIMIT
-        }
+          limit: SPOTIFY_RECENTLY_TRACKS_LIMIT,
+        },
       }
     );
 

@@ -35,12 +35,42 @@ const routes: Array<RouteConfig> = [
     },
   },
   {
-    path: "/main", // TODO this route will be protected
+    path: "/main",
     name: "Main",
     component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
     meta: {
       middleware: [auth],
     },
+  },
+  {
+    path: "/unauthorised",
+    name: "Unauthorised",
+    component: () => import(/* webpackChunkName: "unauthorised" */ "../views/Unauthorised.vue"),
+    beforeEnter: (to, from, next) => {
+      console.log(localStorage.get(AUTHENTICATION_KEY));
+      localStorage.clear();
+      next();
+    }
+  },
+  {
+    path: "/reAuthentication",
+    name: "ReAuthentication",
+    component: () => import(/* webpackChunkName: "reAuthentication" */ "../views/ReAuthentication.vue"),
+    beforeEnter: (to, from, next) => {
+      console.log(localStorage.get(AUTHENTICATION_KEY));
+      localStorage.clear();
+      next();
+    }
+  },
+  {
+    path: "/apiLimitExceeded",
+    name: "ApiLimitExceeded",
+    component: () => import(/* webpackChunkName: "apiLimitExceeded" */ "../views/ApiLimitExceeded.vue"),
+    beforeEnter: (to, from, next) => {
+      console.log(localStorage.get(AUTHENTICATION_KEY));
+      localStorage.clear();
+      next();
+    }
   },
   {
     path: "*",

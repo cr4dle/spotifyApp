@@ -51,7 +51,7 @@ export default class Main extends Vue {
 
   async created() {
     this.recentlyPlayedTracksLatestResponse.push(
-      await spotify.getRecentlyPlayedTracks(this.accessToken)
+      await spotify.getRecentlyPlayedTracks()
     );
     this.recentlyPlayedTracks =
       this.recentlyPlayedTracksLatestResponse[0].items.map(
@@ -59,7 +59,7 @@ export default class Main extends Vue {
       );
 
     this.interval = window.setInterval(async () => {
-      const response = await spotify.getCurrentlyPlaying(this.accessToken);
+      const response = await spotify.getCurrentlyPlaying();
 
       if (response && response.is_playing) {
         if (this.currentlyPlayingTrack !== response) {
@@ -143,10 +143,7 @@ export default class Main extends Vue {
 
   async getTracks(nexResourceUri: string) {
     if (nexResourceUri) {
-      const nextTracks = await spotify.getRecentlyPlayedTracksPaged(
-        this.accessToken,
-        nexResourceUri
-      );
+      const nextTracks = await spotify.getRecentlyPlayedTracksPaged(nexResourceUri);
       this.recentlyPlayedTracksLatestResponse.push(nextTracks);
       this.recentlyPlayedTracks = nextTracks.items.map((item) => item.track);
     }
