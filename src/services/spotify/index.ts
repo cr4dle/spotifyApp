@@ -15,28 +15,30 @@ axiosInstance.defaults.headers.common[
 
 axiosInstance.interceptors.response.use(
   (response) => {
-  return response;
-}, (error: AxiosError) => {
-  // an alternative would have been to set up toastr and re-direct to "Home"
-  if (error.response?.status === 401) {
-    return router.push({
-      name: "Unauthorised"
-    });
-  }
+    return response;
+  },
+  (error: AxiosError) => {
+    // an alternative would have been to set up toastr and re-direct to "Home"
+    if (error.response?.status === 401) {
+      return router.push({
+        name: "Unauthorised",
+      });
+    }
 
-  if(error.response?.status === 403) {
-    return router.push({
-      name: "ReAuthentication"
-    });
-  }
+    if (error.response?.status === 403) {
+      return router.push({
+        name: "ReAuthentication",
+      });
+    }
 
-  if (error.response?.status === 429) {
-    return router.push({
-      name: "ApiLimitExceeded"
-    });
+    if (error.response?.status === 429) {
+      return router.push({
+        name: "ApiLimitExceeded",
+      });
+    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error);
-});
+);
 
 export const spotify = {
   getProfile: () => {
@@ -48,5 +50,6 @@ export const spotify = {
   },
   getCurrentlyPlaying: () => getCurrentlyPlaying(axiosInstance),
   getRecentlyPlayedTracks: () => getRecentlyPlayedTracks(axiosInstance),
-  getRecentlyPlayedTracksPaged: (nexResourceUri: string) => getRecentlyPlayedTracksPaged(axiosInstance, nexResourceUri),
+  getRecentlyPlayedTracksPaged: (nexResourceUri: string) =>
+    getRecentlyPlayedTracksPaged(axiosInstance, nexResourceUri),
 };

@@ -45,32 +45,41 @@ const routes: Array<RouteConfig> = [
   {
     path: "/unauthorised",
     name: "Unauthorised",
-    component: () => import(/* webpackChunkName: "unauthorised" */ "../views/Unauthorised.vue"),
+    component: () =>
+      import(
+        /* webpackChunkName: "unauthorised" */ "../views/Unauthorised.vue"
+      ),
     beforeEnter: (to, from, next) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
-    }
+    },
   },
   {
     path: "/reAuthentication",
     name: "ReAuthentication",
-    component: () => import(/* webpackChunkName: "reAuthentication" */ "../views/ReAuthentication.vue"),
+    component: () =>
+      import(
+        /* webpackChunkName: "reAuthentication" */ "../views/ReAuthentication.vue"
+      ),
     beforeEnter: (to, from, next) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
-    }
+    },
   },
   {
     path: "/apiLimitExceeded",
     name: "ApiLimitExceeded",
-    component: () => import(/* webpackChunkName: "apiLimitExceeded" */ "../views/ApiLimitExceeded.vue"),
+    component: () =>
+      import(
+        /* webpackChunkName: "apiLimitExceeded" */ "../views/ApiLimitExceeded.vue"
+      ),
     beforeEnter: (to, from, next) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
-    }
+    },
   },
   {
     path: "*",

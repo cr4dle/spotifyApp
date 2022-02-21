@@ -143,7 +143,9 @@ export default class Main extends Vue {
 
   async getTracks(nexResourceUri: string) {
     if (nexResourceUri) {
-      const nextTracks = await spotify.getRecentlyPlayedTracksPaged(nexResourceUri);
+      const nextTracks = await spotify.getRecentlyPlayedTracksPaged(
+        nexResourceUri
+      );
       this.recentlyPlayedTracksLatestResponse.push(nextTracks);
       this.recentlyPlayedTracks = nextTracks.items.map((item) => item.track);
     }
