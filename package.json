@@ -7,7 +7,8 @@
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
-    "format": "prettier --write \"./**/*.{ts,js,json,md,vue}\""
+    "format": "prettier --write \"./**/*.{ts,js,json,md,vue}\"",
+    "coverage": "jest -i --coverage --coverageDirectory=coverage"
   },
   "dependencies": {
     "axios": "^0.26.0",

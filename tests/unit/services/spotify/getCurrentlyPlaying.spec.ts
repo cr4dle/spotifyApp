@@ -1,12 +1,14 @@
-import { spotify } from "@/services";
+import axios, { AxiosInstance } from "axios";
+import { getCurrentlyPlaying } from "@/services/spotify/getCurrentlyPlaying";
 import { Track } from "@/types/common/Track";
 import { CurrentlyPlaying } from "@/types/CurrentlyPlaying";
-import axios from "axios";
 
 jest.mock("axios");
 
 describe("getCurrentlyPlaying", () => {
+  let axiosInstance: AxiosInstance;
   let mockAxios: jest.Mocked<typeof axios>;
+  let mockAxiosInstance: jest.Mocked<typeof axiosInstance>;
   const mockedGetData: CurrentlyPlaying = {
     actions: {
       disallows: {
@@ -31,29 +33,34 @@ describe("getCurrentlyPlaying", () => {
 
   beforeAll(() => {
     mockAxios = axios as jest.Mocked<typeof axios>;
+    mockAxios.create = jest.fn(() => jest.genMockFromModule("axios"));
+    const axiosInstance: AxiosInstance = mockAxios.create();
+    mockAxiosInstance = axiosInstance as jest.Mocked<typeof axiosInstance>;
 
-    mockAxios.get.mockResolvedValue(mockedGetData);
-    mockAxios.create.mockImplementation(() => {
-      defaults: {
-        hedaers: {
-          common: {
-            Authorization: "Bearer someRandomTokenHere";
-          }
-        }
-      }
+    mockAxiosInstance.get.mockResolvedValue({
+      status: 200,
+      data: mockedGetData,
     });
   });
 
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it("returns value as expected", async () => {
-    const response: CurrentlyPlaying = await spotify.getCurrentlyPlaying();
+    const response: CurrentlyPlaying = await getCurrentlyPlaying(
+      mockAxiosInstance
+    );
 
     expect(response).toStrictEqual(mockedGetData);
   });
 
   it("throws an error", async () => {
     const error: Error = new Error("Error simulation");
-    mockAxios.get.mockRejectedValueOnce(error);
+    mockAxiosInstance.get.mockRejectedValueOnce(error);
 
-    expect(await spotify.getCurrentlyPlaying()).rejects.toThrowError(error);
+    await expect(getCurrentlyPlaying(mockAxiosInstance)).rejects.toThrowError(
+      error
+    );
   });
 });

@@ -1,9 +1,9 @@
 // @ts-ignore
 // tslint:disable-next-line:typedef
 export default function middlewarePipeline(context, middleware, index) {
-    const nextMiddleware = middleware[index];
+  const nextMiddleware = middleware[index];
 
-    if(!nextMiddleware) {
+  if (!nextMiddleware) {
     return context.next;
   }
 
