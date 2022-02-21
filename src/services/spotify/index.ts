@@ -17,6 +17,7 @@ axiosInstance.interceptors.response.use(
   (response) => {
   return response;
 }, (error: AxiosError) => {
+  // an alternative would have been to set up toastr and re-direct to "Home"
   if (error.response?.status === 401) {
     return router.push({
       name: "Unauthorised"
