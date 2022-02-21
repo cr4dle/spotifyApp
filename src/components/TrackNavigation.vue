@@ -30,6 +30,8 @@ export default class TrackNavigation extends Vue {
 
   private currentPageIndex: number = 0;
 
+  // It seems there is one unncessary call in Spotify API
+  // on "last call", next field is not null and the items.length is less than the limit
   get areThereMoreTracks(): boolean {
     return (
       this.pagesLoaded[this.pagesLoaded.length - 1] &&
