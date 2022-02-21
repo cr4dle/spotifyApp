@@ -8,6 +8,11 @@
         />
       </div>
       <div class="content">
+        <track-navigation
+          :pagesLoaded="recentlyPlayedTracksLatestResponse"
+          @loadTracks="loadTracks"
+          @getTracks="getTracks"
+        />
         <track-collection :tracks="filteredRecentlyTracks" />
       </div>
     </div>
@@ -17,31 +22,41 @@
 <script lang="ts">
 // TODO this should have subroute for the menu and main screen
 import { Component, Vue, Watch } from "vue-property-decorator";
+import TrackNavigation from "@/components/TrackNavigation.vue";
 import TrackCollection from "@/components/TrackCollection.vue";
 import SideMenu from "@/components/SideMenu.vue";
-import { getHashParams, localStorage } from "@/utils";
+import { localStorage } from "@/utils";
 import { spotify } from "@/services";
 import { CurrentlyPlaying } from "@/types/CurrentlyPlaying";
 import { Track } from "@/types/common/Track";
 import { AUTHENTICATION_KEY } from "@/constants";
+import { RecentlyPlayedTracksResponse } from "@/types/RecentlyPlayedTracksResponse";
 
 @Component({
   components: {
     SideMenu,
+    TrackNavigation,
     TrackCollection,
   },
 })
 export default class Main extends Vue {
   private readonly DETECT_PLAYING_SONG_MILISECONDS: number = 3000;
 
+  private recentlyPlayedTracksLatestResponse: RecentlyPlayedTracksResponse[] =
+    [];
   private recentlyPlayedTracks: Track[] = [];
   private currentlyPlayingTrack: CurrentlyPlaying | null = null;
   private filter = "";
   private interval: number = 0;
 
   async created() {
-    const response = await spotify.getRecentlyPlayedTracks(this.accessToken);
-    this.recentlyPlayedTracks = response.items.map((item) => item.track);
+    this.recentlyPlayedTracksLatestResponse.push(
+      await spotify.getRecentlyPlayedTracks(this.accessToken)
+    );
+    this.recentlyPlayedTracks =
+      this.recentlyPlayedTracksLatestResponse[0].items.map(
+        (item) => item.track
+      );
 
     this.interval = window.setInterval(async () => {
       const response = await spotify.getCurrentlyPlaying(this.accessToken);
@@ -120,6 +135,21 @@ export default class Main extends Vue {
         artist: artistQueryParam,
       },
     });
+  }
+
+  loadTracks(tracks: Track[]) {
+    this.recentlyPlayedTracks = tracks;
+  }
+
+  async getTracks(nexResourceUri: string) {
+    if (nexResourceUri) {
+      const nextTracks = await spotify.getRecentlyPlayedTracksPaged(
+        this.accessToken,
+        nexResourceUri
+      );
+      this.recentlyPlayedTracksLatestResponse.push(nextTracks);
+      this.recentlyPlayedTracks = nextTracks.items.map((item) => item.track);
+    }
   }
 }
 </script>

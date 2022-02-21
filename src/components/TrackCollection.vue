@@ -15,8 +15,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Track } from "@/types/RecentlyPlayedTracksResponse";
 import TrackItem from "@/components/TrackItem.vue";
+import { Track } from "@/types/common/Track";
 
 @Component({
   components: {
