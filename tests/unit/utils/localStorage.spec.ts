@@ -2,7 +2,7 @@ import { AUTHENTICATION_KEY, STATE_KEY } from "@/constants";
 import { localStorage } from "@/utils";
 
 var mock = (() => {
-  let storage: { [key:string]: string } = {};
+  let storage: { [key: string]: string } = {};
 
   return {
     setItem: (key: string, value: string) => {

@@ -1,5 +1,5 @@
 import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
+import VueRouter, { NavigationGuardNext, Route, RouteConfig } from "vue-router";
 import Home from "../views/Home.vue";
 import { getHashParams } from "@/utils";
 import guest from "./middleware/guest";
@@ -23,7 +23,7 @@ const routes: Array<RouteConfig> = [
   {
     path: "/spotifyCallback",
     name: "SpotifyCallback",
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (to: Route, from: Route, next: NavigationGuardNext) => {
       const params: SpotifyAuth = getHashParams();
 
       localStorage.remove(AUTHENTICATION_KEY);
@@ -49,7 +49,7 @@ const routes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: "unauthorised" */ "../views/Unauthorised.vue"
       ),
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (to: Route, from: Route, next: NavigationGuardNext) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
@@ -62,7 +62,7 @@ const routes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: "reAuthentication" */ "../views/ReAuthentication.vue"
       ),
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (to: Route, from: Route, next: NavigationGuardNext) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
@@ -75,7 +75,7 @@ const routes: Array<RouteConfig> = [
       import(
         /* webpackChunkName: "apiLimitExceeded" */ "../views/ApiLimitExceeded.vue"
       ),
-    beforeEnter: (to, from, next) => {
+    beforeEnter: (to: Route, from: Route, next: NavigationGuardNext) => {
       console.log(localStorage.get(AUTHENTICATION_KEY));
       localStorage.clear();
       next();
@@ -98,8 +98,8 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  if (!to.meta.middleware) {
+router.beforeEach((to: Route, from: Route, next: NavigationGuardNext) => {
+  if (!to.meta?.middleware) {
     return next();
   }
   const middleware = to.meta.middleware;
