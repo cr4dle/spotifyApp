@@ -1,3 +1,4 @@
+import { AUTHENTICATION_KEY, STATE_KEY } from "@/constants";
 import { LocalStorage } from "@/types/LocalStorage";
 
 export const localStorage: LocalStorage = {
@@ -11,6 +12,7 @@ export const localStorage: LocalStorage = {
     window.localStorage.removeItem(key);
   },
   clear(): void {
-    window.localStorage.clear();
+    window.localStorage.removeItem(STATE_KEY);
+    window.localStorage.removeItem(AUTHENTICATION_KEY);
   },
 };

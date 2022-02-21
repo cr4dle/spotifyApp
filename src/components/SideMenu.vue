@@ -31,10 +31,16 @@ export default class SideMenu extends Vue {
   min-width: 200px;
 
   .recently-played-artist {
-    cursor: pointer;
     margin: 5px 0px;
     padding: 5px;
-    background-color: lightblue;
+    background-color: indigo;
+    transition: 0.4s ease;
+    color: white;
+
+    &:hover {
+      background-color: black;
+      cursor: pointer;
+    }
   }
 }
 </style>

@@ -30,9 +30,9 @@ const routes: Array<RouteConfig> = [
       localStorage.set(AUTHENTICATION_KEY, params.access_token);
 
       next({
-        name: "Main"
+        name: "Main",
       });
-    }
+    },
   },
   {
     path: "/main", // TODO this route will be protected
@@ -40,7 +40,7 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
     meta: {
       middleware: [auth],
-    }
+    },
   },
   {
     path: "*",
