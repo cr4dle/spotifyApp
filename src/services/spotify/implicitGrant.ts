@@ -15,5 +15,6 @@ export const implicitGrant: () => void = () => {
     process.env.VUE_APP_SPOTIFY_REDIRECT_URI
   )}&state=${encodeURIComponent(state)}`;
 
+  // @ts-ignore
   window.location = url;
 };
