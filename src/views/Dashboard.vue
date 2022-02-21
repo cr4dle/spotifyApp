@@ -20,7 +20,6 @@
 </template>
 
 <script lang="ts">
-// TODO this should have subroute for the menu and main screen
 import { Component, Vue, Watch } from "vue-property-decorator";
 import TrackNavigation from "@/components/TrackNavigation.vue";
 import TrackCollection from "@/components/TrackCollection.vue";
@@ -39,7 +38,7 @@ import { RecentlyPlayedTracksResponse } from "@/types/RecentlyPlayedTracksRespon
     TrackCollection,
   },
 })
-export default class Main extends Vue {
+export default class Dashboard extends Vue {
   private readonly DETECT_PLAYING_SONG_MILISECONDS: number = 3000;
 
   private recentlyPlayedTracksLatestResponse: RecentlyPlayedTracksResponse[] =
@@ -47,7 +46,7 @@ export default class Main extends Vue {
   private recentlyPlayedTracks: Track[] = [];
   private currentlyPlayingTrack: CurrentlyPlaying | null = null;
   private filter = "";
-  private interval: number = 0;
+  private interval = 0;
 
   async created() {
     this.recentlyPlayedTracksLatestResponse.push(
@@ -128,7 +127,7 @@ export default class Main extends Vue {
         : artist;
 
     this.$router.push({
-      name: "Main",
+      name: "Dashboard",
       hash: this.$router.currentRoute.hash,
       query: {
         ...this.$router.currentRoute.query,

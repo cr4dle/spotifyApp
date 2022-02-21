@@ -30,14 +30,14 @@ const routes: Array<RouteConfig> = [
       localStorage.set(AUTHENTICATION_KEY, params.access_token);
 
       next({
-        name: "Main",
+        name: "Dashboard",
       });
     },
   },
   {
-    path: "/main",
-    name: "Main",
-    component: () => import(/* webpackChunkName: "main" */ "../views/Main.vue"),
+    path: "/dashboard",
+    name: "Dashboard",  // TODO convert this to enum and use it everywhere
+    component: () => import(/* webpackChunkName: "dashboard" */ "../views/Dashboard.vue"),
     meta: {
       middleware: [auth],
     },
