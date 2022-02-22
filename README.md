@@ -1,5 +1,6 @@
 # Spotify app
 
+![App](https://user-images.githubusercontent.com/12538160/155044053-dd73436d-bd17-4537-82f5-2d9d07183df1.png)
 
 This is a simple app to display recently played tracks using Spotify API.
 
