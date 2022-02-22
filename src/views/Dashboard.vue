@@ -98,7 +98,7 @@ export default class Dashboard extends Vue {
       this.filteredRecentlyTracks
         ?.flatMap((track) => track.artists)
         .map((artist) => artist.name)
-        .sort()
+        // .sort()
     );
   }
 
